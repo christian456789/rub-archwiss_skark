@@ -1,0 +1,136 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+title "session3 tasks"
+
+```{r setup, include=False}
+knitr::opts_chunk$set (echo=TRUE)
+```
+
+```{r}
+# Combining the vectors into a data frame
+stone_tools_data <- data.frame(
+  inventory_number = c("LN15", "LN17", "LN18", "LN21", "LN23", "LN24"),
+  blength = c(18, 14, 21, 14, 17, 16),
+  breadth = c(9, 7, 10, 7, 8, 8),
+  thickness = c(3, 2, 3, 3, 3, 2),
+  material_type = c("chert", "chert", "obsidian", "chert", "obsidian", "obsidian"),
+  material_provenance = c("local", "local", "local", "non-local", "local", "non-local")
+)
+
+# Display the data frame
+knitr::kable(stone_tools_data)
+```
+
+```{r}
+# csv einlesen To save your data as a CSV file, use the write.csv() or write_csv() # functions.
+write.csv(stone_tools_data, "data/stone_tools_data.csv")
+```
+
+```{r}
+stone_tools_data3 <- read.csv("data/stone_tools_data.csv")
+```
+
+```{r}
+stone_tools_data$type_and_provenance <- paste(stone_tools_data$material_type,stone_tools_data$material_provenance)
+```
+
+```{r}
+stone_tools_data_table <- table(stone_tools_data$material_type)
+png("plots/Session3_Barplot_material_type.png")
+barplot(stone_tools_data_table, 
+main = "Bar Plot of count of artifacts by material type",
+xlab = "material type")
+
+dev.off()
+
+```
+
+```{r}
+Plot_name <- "plots/Session3_Barplot_material_type_and_provenance.png"
+
+stone_tools_data_table_type_and_prove <- table(stone_tools_data$type_and_provenance)
+png(Plot_name)
+
+barplot(stone_tools_data_table_type_and_prove, 
+main = "Bar Plot of count of artifacts by material type and provenance",
+xlab = "material type and provenance")
+
+
+
+dev.off()
+```
+
+# histogramm
+
+```{r}
+Plot_name <- "plots/Session3_histogram_length_breadth_thickness.png"
+
+stone_tools_data_table_type_and_prove <- table(stone_tools_data$type_and_provenance)
+png(Plot_name)
+
+hist(stone_tools_data$blength, 
+main = "Histogram of count of artifacts by length of blade",
+xlab = "Length [mm]")
+
+
+
+dev.off()
+```
+
+# 3 histogramme
+
+```{r}
+Plot_name <- "plots/Session3_histogram_length_breadth_thickness.png"
+
+stone_tools_data_table_type_and_prove <- table(stone_tools_data$type_and_provenance)
+png(Plot_name, width = 700,height = 300 )
+layout(matrix(1:3, ncol = 1))
+hist(stone_tools_data$blength, 
+main = "Histogram of count of artifacts by length of blade",
+xlab = "Length [mm]")
+hist(stone_tools_data$breadth, 
+main = "Histogram of count of artifacts by breadth of blade",
+xlab = "breadth [mm]")
+hist(stone_tools_data$thickness, 
+main = "Histogram of count of artifacts by thickness of blade",
+xlab = "thickness [mm]")
+
+
+dev.off()
+```
+
+```{r}
+stone_tools_data
+png("plots/Session3_scatterplot_stone_tools_Length_breadth.png")
+plot(stone_tools_data$breadth,stone_tools_data$blength, xlim = c(0,15),
+     #Achsenformatierung
+     ylim = c(0,30),
+     main = "Scatter Plot of Length vs width",
+    
+     xlab = "Breadth in [mm]",
+     ylab = "Length in [mm]",
+     cex = 5)
+
+
+dev.off()
+
+```
+
+
+```{r}
+source("script/histo-function.R") 
+histo(stone_tools_data)
+# loads all functions defined inside the script
+
+```
+
+
+
+```{r}
+# speichern der Funktion in script utility.histogram.R
+function(stone_tool_data)
+```
